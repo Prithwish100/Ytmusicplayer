@@ -236,6 +236,7 @@ function Home() {
         <section className="main-column">
           <div className="intro">
             <div>
+              <div className="creator-credit">Made by Prithwish</div>
               <div className="eyebrow">Your own frequency</div>
               <h1>Find your<br /><em>afterhours.</em></h1>
             </div>

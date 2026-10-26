@@ -193,3 +193,129 @@ button { cursor: pointer; }
 @media (prefers-reduced-motion: reduce) {
   *,*::before,*::after { animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important; }
 }
+
+:root {
+  color-scheme: dark;
+  --background: 155 14% 9%;
+  --foreground: 42 20% 91%;
+  --card: 156 12% 15%;
+  --card-foreground: 42 20% 91%;
+  --border: 155 10% 25%;
+  --input: 155 10% 25%;
+  --primary: 164 40% 55%;
+  --primary-foreground: 155 18% 10%;
+  --secondary: 156 11% 20%;
+  --secondary-foreground: 42 20% 88%;
+  --muted: 156 10% 18%;
+  --muted-foreground: 144 8% 65%;
+  --accent: 15 67% 68%;
+  --accent-foreground: 160 15% 9%;
+  --ring: 164 40% 55%;
+}
+
+html,
+body {
+  background: #141a18;
+  color: #e8e5dd;
+}
+
+.desk-shell {
+  background: radial-gradient(ellipse at 12% 0%, #26332e 0%, #171d1a 44%, #121715 100%);
+}
+
+.brand { color: #ece8df; }
+.brand-mark { background: #397f70; box-shadow: 0 8px 20px #397f7035; }
+.brand-name span { color: #91a99e; }
+.top-meta { color: #a3aaa0; }
+.creator-credit {
+  margin-bottom: 12px;
+  color: #8bc8b3;
+  font: 11px var(--app-font-mono);
+  letter-spacing: .08em;
+}
+.eyebrow { color: #91aa9d; }
+.intro h1 { color: #eeeae1; }
+.intro h1 em { color: #e08b73; }
+.date-chip { color: #a5b0a5; }
+
+.search-wrap {
+  background: #222a26;
+  border-color: #39463f;
+  box-shadow: inset 0 1px #ffffff0b;
+}
+.search-wrap:focus-within {
+  border-color: #74b9a3;
+  box-shadow: 0 0 0 4px #74b9a31c;
+}
+.search-icon { color: #9ba89f; }
+.search-input { color: #eeeae1; }
+.search-input::placeholder { color: #8d9990; }
+.search-submit { background: #4d9c86; color: #101815; }
+.search-submit:hover { background: #64ae97; }
+
+.section-caption,
+.result-count { color: #a0aaa0; }
+.track-list { border-color: #354039; }
+.track-row { border-color: #303a34; }
+.track-row:hover { background: #25302a; }
+.track-index,
+.track-duration { color: #9ba69d; }
+.track-art { background: #29332e; }
+.track-art-fallback { color: #f2eee6; }
+.track-title { color: #e9e6de; }
+.track-artist { color: #a2aaa1; }
+.icon-button { color: #a3ada4; }
+.icon-button:hover { background: #303a34; color: #8ac8b3; }
+.icon-button.active,
+.heart-tint { color: #e08b73; }
+.skeleton-row {
+  background: linear-gradient(90deg, #222a26 20%, #2b342f 40%, #222a26 60%);
+  background-size: 240% 100%;
+}
+.empty-state { border-color: #3c4841; color: #a5aea5; }
+.empty-orbit { background: #293c34; color: #8bc8b3; }
+.empty-state strong { color: #e4e1d8; }
+.empty-state p { color: #a1aaa1; }
+.error-state { background: #382a27; border-color: #684239; color: #f0b09d; }
+.retry-button { background: #b96b55; color: #fff7ef; }
+
+.queue-panel { background: #202824; border-color: #37433c; box-shadow: inset 0 1px #ffffff0b; }
+.queue-total { color: #abc1b4; background: #2b3932; }
+.queue-sub,
+.queue-artist,
+.queue-empty { color: #a0aaa0; }
+.queue-item { border-color: #354039; }
+.queue-item.current .queue-name,
+.favorite-line:hover .favorite-title { color: #8bc8b3; }
+.queue-thumb,
+.now-art { background: #29332e; }
+.queue-clear { border-color: #354039; color: #a0aaa0; }
+.favorite-empty { border-color: #526159; color: #a5aea5; }
+.favorite-line { border-color: #354039; }
+.favorite-artist { color: #a0aaa0; }
+
+.player-dock {
+  background: #141a18ed;
+  border-color: #303a34;
+  box-shadow: 0 -10px 35px #080b0a40;
+}
+.now-label,
+.now-artist,
+.time-label { color: #9ba69d; }
+.transport { color: #a9b3aa; }
+.transport:hover { color: #8bc8b3; background: #29332e; }
+.transport.on { color: #e08b73; }
+.play-button { background: #4d9c86; color: #101815; box-shadow: 0 5px 14px #397f7035; }
+.play-button:hover { background: #64ae97; }
+.seek-range,
+.volume-range {
+  background: linear-gradient(to right, #65ad96 var(--progress, 0%), #3a453e var(--progress, 0%));
+}
+.volume-range { background: linear-gradient(to right, #65ad96 var(--volume, 72%), #3a453e var(--volume, 72%)); }
+.seek-range::-webkit-slider-thumb,
+.volume-range::-webkit-slider-thumb { background: #8bc8b3; }
+.seek-range::-moz-range-thumb,
+.volume-range::-moz-range-thumb { background: #8bc8b3; }
+.player-notice { color: #e8a28e; }
+
+::selection { background: #527f6e; color: #fffaf1; }
