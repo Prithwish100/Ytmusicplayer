@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: music
+    description: Music search and playback
 paths:
   /healthz:
     get:
@@ -24,6 +26,41 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /music/search:
+    get:
+      operationId: searchMusic
+      tags: [music]
+      summary: Search music tracks
+      description: Searches music results and returns playable YouTube Music tracks.
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 160
+      responses:
+        "200":
+          description: Matching music tracks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MusicTrack"
+        "400":
+          description: Invalid query
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "503":
+          description: Music search is temporarily unavailable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +70,36 @@ components:
           type: string
       required:
         - status
+    MusicTrack:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        artist:
+          type: string
+        durationSeconds:
+          type: ["integer", "null"]
+        thumbnailUrl:
+          type: ["string", "null"]
+        playbackUrl:
+          type: string
+        watchUrl:
+          type: string
+      required:
+        - id
+        - title
+        - artist
+        - durationSeconds
+        - thumbnailUrl
+        - playbackUrl
+        - watchUrl
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
 
