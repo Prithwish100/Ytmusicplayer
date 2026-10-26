@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Music Player"
+description = "A browser-based music player that searches music videos on YouTube and plays them with a queue, transport controls, shuffle, repeat, volume, and saved favorites."
+version = "1.0.0"
+id = "artifacts/music-player"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25424
+
+[services.development]
+run = "pnpm --filter @workspace/music-player run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/music-player", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/music-player/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25424"
+BASE_PATH = "/"
