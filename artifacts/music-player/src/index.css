@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
+@layer theme, base, clerk, components, utilities;
 @import 'tailwindcss';
+@import '@clerk/themes/shadcn.css';
 @import 'tw-animate-css';
 @plugin "@tailwindcss/typography";
 
@@ -227,6 +229,39 @@ body {
 .brand-mark { background: #397f70; box-shadow: 0 8px 20px #397f7035; }
 .brand-name span { color: #91a99e; }
 .top-meta { color: #a3aaa0; }
+.header-actions { display:flex; align-items:center; gap:22px; }
+.auth-actions { display:flex; align-items:center; gap:8px; }
+.auth-link {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:36px;
+  padding:0 13px;
+  border:1px solid #46534b;
+  border-radius:12px;
+  background:#202824;
+  color:#e8e5dd;
+  font-size:12px;
+  font-weight:700;
+  text-decoration:none;
+  transition:background .2s, border-color .2s, color .2s;
+}
+.auth-link:hover { background:#2a342e; border-color:#739584; color:#f4f1e9; }
+.auth-link-primary { background:#4d9c86; border-color:#4d9c86; color:#101815; }
+.auth-link-primary:hover { background:#64ae97; border-color:#64ae97; color:#101815; }
+.account-name { color:#a9b3aa; font-size:12px; }
+.inline-sign-in { color:#8bc8b3; font-weight:700; text-decoration:none; }
+.inline-sign-in:hover { color:#a5e0cb; text-decoration:underline; }
+.auth-page {
+  display:flex;
+  min-height:100dvh;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:radial-gradient(ellipse at 12% 0%, #26332e 0%, #171d1a 44%, #121715 100%);
+}
+.cl-formFieldInput::placeholder { color:#8d9990; opacity:1; }
+.cl-formFieldInput:focus { border-color:#74b9a3 !important; box-shadow:0 0 0 3px #74b9a31c !important; }
 .creator-credit {
   margin-bottom: 12px;
   color: #8bc8b3;

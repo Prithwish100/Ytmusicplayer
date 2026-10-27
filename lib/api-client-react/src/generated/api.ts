@@ -6,24 +6,29 @@
  * OpenAPI spec version: 0.1.0
  */
 import {
+  useMutation,
   useQuery
 } from '@tanstack/react-query';
 import type {
+  MutationFunction,
   QueryFunction,
   QueryKey,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
 
 import type {
   Error,
+  FavoriteTrackInput,
   HealthStatus,
   MusicTrack,
   SearchMusicParams
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
-import type { ErrorType } from '../custom-fetch';
+import type { ErrorType , BodyType } from '../custom-fetch';
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
@@ -211,4 +216,244 @@ export function useSearchMusic<TData = Awaited<ReturnType<typeof searchMusic>>, 
 
 
 
+
+export const getListMyFavoritesUrl = () => {
+
+
+
+
+  return `/api/me/favorites`
+}
+
+/**
+ * @summary List the signed-in user's favorites
+ */
+export const listMyFavorites = async ( options?: Parameters<typeof customFetch>[1]): Promise<MusicTrack[]> => {
+
+  return customFetch<MusicTrack[]>(getListMyFavoritesUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getListMyFavoritesQueryKey = () => {
+    return [
+    `/api/me/favorites`
+    ] as const;
+    }
+
+
+export const getListMyFavoritesQueryOptions = <TData = Awaited<ReturnType<typeof listMyFavorites>>, TError = ErrorType<Error>>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listMyFavorites>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getListMyFavoritesQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof listMyFavorites>>> = ({ signal }) => listMyFavorites({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof listMyFavorites>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ListMyFavoritesQueryResult = NonNullable<Awaited<ReturnType<typeof listMyFavorites>>>
+export type ListMyFavoritesQueryError = ErrorType<Error>
+
+
+/**
+ * @summary List the signed-in user's favorites
+ */
+
+export function useListMyFavorites<TData = Awaited<ReturnType<typeof listMyFavorites>>, TError = ErrorType<Error>>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof listMyFavorites>>, TError, TData>, request?: SecondParameter<typeof customFetch>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getListMyFavoritesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getUpsertMyFavoriteUrl = (id: string,) => {
+
+
+
+
+  return `/api/me/favorites/${id}`
+}
+
+/**
+ * @summary Save a track to the signed-in user's favorites
+ */
+export const upsertMyFavorite = async (id: string,
+    favoriteTrackInput: FavoriteTrackInput, options?: Parameters<typeof customFetch>[1]): Promise<MusicTrack> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<MusicTrack>(getUpsertMyFavoriteUrl(id),
+  {
+    ...options,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(favoriteTrackInput)
+  }
+);}
+
+
+
+
+
+export const getUpsertMyFavoriteMutationKey = () => ['upsertMyFavorite'] as const;
+
+export const getUpsertMyFavoriteMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof upsertMyFavorite>>, TError,UpsertMyFavoriteMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof upsertMyFavorite>>, TError,UpsertMyFavoriteMutationVariables, TContext> => {
+
+const mutationKey = getUpsertMyFavoriteMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof upsertMyFavorite>>, UpsertMyFavoriteMutationVariables> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  upsertMyFavorite(id,data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpsertMyFavoriteMutationResult = NonNullable<Awaited<ReturnType<typeof upsertMyFavorite>>>
+    export type UpsertMyFavoriteMutationBody = BodyType<FavoriteTrackInput>
+    export type UpsertMyFavoriteMutationError = ErrorType<Error>
+    export type UpsertMyFavoriteMutationVariables = {id: string;data: BodyType<FavoriteTrackInput>}
+
+    /**
+ * @summary Save a track to the signed-in user's favorites
+ */
+export const useUpsertMyFavorite = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof upsertMyFavorite>>, TError,UpsertMyFavoriteMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof upsertMyFavorite>>,
+        TError,
+        UpsertMyFavoriteMutationVariables,
+        TContext
+      > => {
+      return useMutation(getUpsertMyFavoriteMutationOptions(options));
+    }
+
+export const getDeleteMyFavoriteUrl = (id: string,) => {
+
+
+
+
+  return `/api/me/favorites/${id}`
+}
+
+/**
+ * @summary Remove a track from the signed-in user's favorites
+ */
+export const deleteMyFavorite = async (id: string, options?: Parameters<typeof customFetch>[1]): Promise<void> => {
+
+  return customFetch<void>(getDeleteMyFavoriteUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+
+export const getDeleteMyFavoriteMutationKey = () => ['deleteMyFavorite'] as const;
+
+export const getDeleteMyFavoriteMutationOptions = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteMyFavorite>>, TError,DeleteMyFavoriteMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteMyFavorite>>, TError,DeleteMyFavoriteMutationVariables, TContext> => {
+
+const mutationKey = getDeleteMyFavoriteMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteMyFavorite>>, DeleteMyFavoriteMutationVariables> = (props) => {
+          const {id} = props ?? {};
+
+          return  deleteMyFavorite(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteMyFavoriteMutationResult = NonNullable<Awaited<ReturnType<typeof deleteMyFavorite>>>
+
+    export type DeleteMyFavoriteMutationError = ErrorType<Error>
+    export type DeleteMyFavoriteMutationVariables = {id: string}
+
+    /**
+ * @summary Remove a track from the signed-in user's favorites
+ */
+export const useDeleteMyFavorite = <TError = ErrorType<Error>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteMyFavorite>>, TError,DeleteMyFavoriteMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteMyFavorite>>,
+        TError,
+        DeleteMyFavoriteMutationVariables,
+        TContext
+      > => {
+      return useMutation(getDeleteMyFavoriteMutationOptions(options));
+    }
 

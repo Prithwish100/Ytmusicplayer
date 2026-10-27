@@ -12,6 +12,8 @@ tags:
     description: Health operations
   - name: music
     description: Music search and playback
+  - name: favorites
+    description: Account favorites
 paths:
   /healthz:
     get:
@@ -61,6 +63,83 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /me/favorites:
+    get:
+      operationId: listMyFavorites
+      tags: [favorites]
+      summary: List the signed-in user's favorites
+      responses:
+        "200":
+          description: Saved favorite tracks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/MusicTrack"
+        "401":
+          description: Sign in is required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /me/favorites/{id}:
+    put:
+      operationId: upsertMyFavorite
+      tags: [favorites]
+      summary: Save a track to the signed-in user's favorites
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: "^[A-Za-z0-9_-]{11}$"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FavoriteTrackInput"
+      responses:
+        "200":
+          description: Saved favorite track
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MusicTrack"
+        "400":
+          description: Invalid favorite track
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Sign in is required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      operationId: deleteMyFavorite
+      tags: [favorites]
+      summary: Remove a track from the signed-in user's favorites
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: "^[A-Za-z0-9_-]{11}$"
+      responses:
+        "204":
+          description: Favorite removed
+        "401":
+          description: Sign in is required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     HealthStatus:
@@ -95,6 +174,28 @@ components:
         - thumbnailUrl
         - playbackUrl
         - watchUrl
+    FavoriteTrackInput:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 500
+        artist:
+          type: string
+          minLength: 1
+          maxLength: 500
+        durationSeconds:
+          type: ["integer", "null"]
+          minimum: 0
+        thumbnailUrl:
+          type: ["string", "null"]
+          maxLength: 2048
+      required:
+        - title
+        - artist
+        - durationSeconds
+        - thumbnailUrl
     Error:
       type: object
       properties:

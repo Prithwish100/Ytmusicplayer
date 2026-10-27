@@ -41,3 +41,69 @@ export const SearchMusicResponseItem = zod.object({
 export const SearchMusicResponse = zod.array(SearchMusicResponseItem)
 
 
+/**
+ * @summary List the signed-in user's favorites
+ */
+export const ListMyFavoritesResponseItem = zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "artist": zod.string(),
+  "durationSeconds": zod.number().int().nullable(),
+  "thumbnailUrl": zod.string().nullable(),
+  "playbackUrl": zod.string(),
+  "watchUrl": zod.string()
+})
+export const ListMyFavoritesResponse = zod.array(ListMyFavoritesResponseItem)
+
+
+/**
+ * @summary Save a track to the signed-in user's favorites
+ */
+export const upsertMyFavoritePathIdRegExp = new RegExp('^[A-Za-z0-9_-]{11}$');
+
+
+export const UpsertMyFavoriteParams = zod.object({
+  "id": zod.coerce.string().regex(upsertMyFavoritePathIdRegExp)
+})
+
+export const upsertMyFavoriteBodyTitleMax = 500;
+
+export const upsertMyFavoriteBodyArtistMax = 500;
+
+export const upsertMyFavoriteBodyDurationSecondsMin = 0;
+
+export const upsertMyFavoriteBodyThumbnailUrlMax = 2048;
+
+
+
+export const UpsertMyFavoriteBody = zod.object({
+  "title": zod.string().min(1).max(upsertMyFavoriteBodyTitleMax),
+  "artist": zod.string().min(1).max(upsertMyFavoriteBodyArtistMax),
+  "durationSeconds": zod.number().int().min(upsertMyFavoriteBodyDurationSecondsMin).nullable(),
+  "thumbnailUrl": zod.string().max(upsertMyFavoriteBodyThumbnailUrlMax).nullable()
+})
+
+export const UpsertMyFavoriteResponse = zod.object({
+  "id": zod.string(),
+  "title": zod.string(),
+  "artist": zod.string(),
+  "durationSeconds": zod.number().int().nullable(),
+  "thumbnailUrl": zod.string().nullable(),
+  "playbackUrl": zod.string(),
+  "watchUrl": zod.string()
+})
+
+
+/**
+ * @summary Remove a track from the signed-in user's favorites
+ */
+export const deleteMyFavoritePathIdRegExp = new RegExp('^[A-Za-z0-9_-]{11}$');
+
+
+export const DeleteMyFavoriteParams = zod.object({
+  "id": zod.coerce.string().regex(deleteMyFavoritePathIdRegExp)
+})
+
+export const DeleteMyFavoriteResponse = zod.void()
+
+

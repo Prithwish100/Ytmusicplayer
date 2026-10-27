@@ -7,6 +7,7 @@
  */
 
 export * from './error';
+export * from './favoriteTrackInput';
 export * from './healthStatus';
 export * from './musicTrack';
 export * from './searchMusicParams';

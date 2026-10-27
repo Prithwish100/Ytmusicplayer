@@ -21,6 +21,29 @@ export interface MusicTrack {
   watchUrl: string;
 }
 
+export interface FavoriteTrackInput {
+  /**
+     * @minLength 1
+     * @maxLength 500
+     */
+  title: string;
+  /**
+     * @minLength 1
+     * @maxLength 500
+     */
+  artist: string;
+  /**
+     * @minimum 0
+     * @nullable
+     */
+  durationSeconds: number | null;
+  /**
+     * @maxLength 2048
+     * @nullable
+     */
+  thumbnailUrl: string | null;
+}
+
 export interface Error {
   error: string;
 }
